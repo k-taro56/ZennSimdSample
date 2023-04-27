@@ -1,3 +1,8 @@
+// MIT License
+// Refer to LICENSE.txt for more information.
+
+// https://zenn.dev/k_taro56/articles/simd-min-of-max-of-array
+
 #include <stdio.h>
 #include <limits.h>
 #include <intrin.h>
@@ -68,6 +73,7 @@ int min_of_fast(const int a[], int length)
 	int min_value;
 	__m256i min_value256;
 
+	// 配列の要素数が 8 未満の場合は、汎用命令を使う。
 	if (length < 8)
 	{
 		min_value = INT_MAX;
@@ -121,7 +127,7 @@ int min_of_fast(const int a[], int length)
 }
 
 // 汎用命令を使った、配列 a の中から最大値を求める関数。
-int max_of_general(int a[], int length)
+int max_of_general(const int a[], int length)
 {
 	int max_value = INT_MIN;
 
@@ -137,7 +143,7 @@ int max_of_general(int a[], int length)
 }
 
 // SIMD 命令を使った、配列 a の中から最大値を求める関数。
-int max_of(int a[], int length)
+int max_of(const int a[], int length)
 {
 	int i = 0;
 
@@ -180,12 +186,13 @@ int max_of(int a[], int length)
 }
 
 // より最適化された、配列 a の中から最大値を求める関数。
-int max_of_fast(int a[], int length)
+int max_of_fast(const int a[], int length)
 {
 	int i;
 	int max_value;
 	__m256i max_value256;
 
+	// 配列の要素数が 8 未満の場合は、汎用命令を使う。
 	if (length < 8)
 	{
 		max_value = INT_MIN;
@@ -241,31 +248,32 @@ int max_of_fast(int a[], int length)
 int main(void)
 {
 	int a[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0 };
+	int length = sizeof(a) / sizeof(int);
 	int min_value;
 	int max_value;
 
 	// 配列 a の中から最小値を求める。
-	min_value = min_of_general(a, sizeof(a) / sizeof(int));
+	min_value = min_of_general(a, length);
 	printf("min_value_general = %d\n", min_value);
 
 	// 配列 a の中から最大値を求める。
-	max_value = max_of_general(a, sizeof(a) / sizeof(int));
+	max_value = max_of_general(a, length);
 	printf("max_value_general = %d\n", max_value);
 
 	// 配列 a の中から最小値を求める。
-	min_value = min_of(a, sizeof(a) / sizeof(int));
+	min_value = min_of(a, length);
 	printf("min_value = %d\n", min_value);
 
 	// 配列 a の中から最大値を求める。
-	max_value = max_of(a, sizeof(a) / sizeof(int));
+	max_value = max_of(a, length);
 	printf("max_value = %d\n", max_value);
 
 	// 配列 a の中から最小値を求める。
-	min_value = min_of_fast(a, sizeof(a) / sizeof(int));
+	min_value = min_of_fast(a, length);
 	printf("min_value_fast = %d\n", min_value);
 
 	// 配列 a の中から最大値を求める。
-	max_value = max_of_fast(a, sizeof(a) / sizeof(int));
+	max_value = max_of_fast(a, length);
 	printf("max_value_fast = %d\n", max_value);
 
 	return 0;
