@@ -214,7 +214,7 @@ int max_of_fast(const int a[], int length)
 	// Še—v‘f‚ğ 8 ŒÂ‚¸‚Âˆ—B
 	for (; i + 7 < length; i += 8)
 	{
-		__m256i a256 = _mm256_loadu_si256((__m256i*) & a[i]);
+		__m256i a256 = _mm256_loadu_si256((__m256i*)(&a[i]));
 		max_value256 = _mm256_max_epi32(max_value256, a256);
 	}
 
