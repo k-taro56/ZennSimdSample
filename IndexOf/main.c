@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <intrin.h>
 
-// 32 ƒrƒbƒg®”‚Ì 8 ŒÂ‚Ì—v‘f‚ğ‚ÂƒxƒNƒgƒ‹‚Ì’†‚©‚çAÅ‰‚É 0 ˆÈŠO‚Ì—v‘f‚ªŒ©‚Â‚©‚Á‚½ƒCƒ“ƒfƒbƒNƒX‚ğ‹‚ß‚éŠÖ”B
+// 32 ãƒ“ãƒƒãƒˆç¬¦å·ä»˜æ•´æ•°ã® 8 å€‹ã®è¦ç´ ã‚’æŒã¤ãƒ™ã‚¯ãƒˆãƒ«ã®ä¸­ã‹ã‚‰ã€æœ€åˆã«è² ã®è¦ç´ ãŒè¦‹ã¤ã‹ã£ãŸã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æ±‚ã‚ã‚‹é–¢æ•°ã€‚
 unsigned long find_first_non_zero_index_epi32(__m256i a)
 {
 	unsigned long index;
@@ -16,7 +16,7 @@ unsigned long find_first_non_zero_index_epi32(__m256i a)
 	return index;
 }
 
-// ”Ä—p–½—ß‚ğg‚Á‚½A”z—ñ a ‚Ì’†‚©‚ç key ‚Æ“™‚µ‚¢—v‘f‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‹‚ß‚éŠÖ”B
+// æ±ç”¨å‘½ä»¤ã‚’ä½¿ã£ãŸã€é…åˆ— a ã®ä¸­ã‹ã‚‰ key ã¨ç­‰ã—ã„è¦ç´ ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æ±‚ã‚ã‚‹é–¢æ•°ã€‚
 int index_of_general(const int a[], int length, int key)
 {
 	for (int i = 0; i < length; i++)
@@ -30,7 +30,7 @@ int index_of_general(const int a[], int length, int key)
 	return -1;
 }
 
-// SIMD –½—ß‚ğg‚Á‚½A”z—ñ a ‚Ì’†‚©‚ç key ‚Æ“™‚µ‚¢—v‘f‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‹‚ß‚éŠÖ”B
+// SIMD å‘½ä»¤ã‚’ä½¿ã£ãŸã€é…åˆ— a ã®ä¸­ã‹ã‚‰ key ã¨ç­‰ã—ã„è¦ç´ ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æ±‚ã‚ã‚‹é–¢æ•°ã€‚
 int index_of(const int a[], int length, int key)
 {
 	if (length < 0)
@@ -42,21 +42,21 @@ int index_of(const int a[], int length, int key)
 
 	__m256i key256 = _mm256_set1_epi32(key);
 
-	// Še—v‘f‚ğ 8 ŒÂ‚¸‚Âˆ—B
+	// å„è¦ç´ ã‚’ 8 å€‹ãšã¤å‡¦ç†ã€‚
 	for (; i + 7 < length; i += 8)
 	{
 		__m256i a256 = _mm256_loadu_si256((__m256i*)(&a[i]));
 		__m256i equals256 = _mm256_cmpeq_epi32(a256, key256);
 
-		// 8 ŒÂ‚Ì—v‘f‚Ì’†‚É key ‚Æ“™‚µ‚¢—v‘f‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’èB
+		// 8 å€‹ã®è¦ç´ ã®ä¸­ã« key ã¨ç­‰ã—ã„è¦ç´ ãŒã‚ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã€‚
 		if (!_mm256_testz_si256(equals256, equals256))
 		{
 			return i + find_first_non_zero_index_epi32(equals256);
 		}
 	}
 
-	// c‚è‚Ì—v‘f‚ğˆ—B
-	// ‚±‚±‚Í”Ä—p–½—ßB
+	// æ®‹ã‚Šã®è¦ç´ ã‚’å‡¦ç†ã€‚
+	// ã“ã“ã¯æ±ç”¨å‘½ä»¤ã€‚
 	for (; i < length; i++)
 	{
 		if (key == a[i])
@@ -68,7 +68,7 @@ int index_of(const int a[], int length, int key)
 	return -1;
 }
 
-// ‚æ‚èÅ“K‰»‚³‚ê‚½A”z—ñ a ‚Ì’†‚©‚ç key ‚Æ“™‚µ‚¢—v‘f‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ‹‚ß‚éŠÖ”B
+// ã‚ˆã‚Šæœ€é©åŒ–ã•ã‚ŒãŸã€é…åˆ— a ã®ä¸­ã‹ã‚‰ key ã¨ç­‰ã—ã„è¦ç´ ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æ±‚ã‚ã‚‹é–¢æ•°ã€‚
 int index_of_fast(const int a[], int length, int key)
 {
 	if (length < 0)
@@ -78,7 +78,7 @@ int index_of_fast(const int a[], int length, int key)
 
 	int i;
 
-	// ”z—ñ‚Ì—v‘f”‚ª 8 –¢–‚Ìê‡‚ÍA”Ä—p–½—ß‚ğg‚¤B
+	// é…åˆ—ã®è¦ç´ æ•°ãŒ 8 æœªæº€ã®å ´åˆã¯ã€æ±ç”¨å‘½ä»¤ã‚’ä½¿ã†ã€‚
 	if (length < 8)
 	{
 		for (i = 0; i < length; i++)
@@ -94,29 +94,29 @@ int index_of_fast(const int a[], int length, int key)
 
 	__m256i key256 = _mm256_set1_epi32(key);
 
-	// Še—v‘f‚ğ 8 ŒÂ‚¸‚Âˆ—B
+	// å„è¦ç´ ã‚’ 8 å€‹ãšã¤å‡¦ç†ã€‚
 	for (i = 0; i + 7 < length; i += 8)
 	{
 		__m256i a256 = _mm256_loadu_si256((__m256i*)(&a[i]));
 		__m256i equals256 = _mm256_cmpeq_epi32(a256, key256);
 
-		// 8 ŒÂ‚Ì—v‘f‚Ì’†‚É key ‚Æ“™‚µ‚¢—v‘f‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’èB
+		// 8 å€‹ã®è¦ç´ ã®ä¸­ã« key ã¨ç­‰ã—ã„è¦ç´ ãŒã‚ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã€‚
 		if (!_mm256_testz_si256(equals256, equals256))
 		{
 			return i + find_first_non_zero_index_epi32(equals256);
 		}
 	}
 
-	// c‚è‚Ì—v‘f‚ğˆ—B
-	// ”z—ñ‚Ìˆê•”‚ğd•¡‚µ‚Ä’Tõ‚·‚é‚±‚Æ‚É‚È‚é‚ªAŒ‹‰Ê‚É‰e‹¿‚Í‚È‚¢B
+	// æ®‹ã‚Šã®è¦ç´ ã‚’å‡¦ç†ã€‚
+	// é…åˆ—ã®ä¸€éƒ¨ã‚’é‡è¤‡ã—ã¦æ¢ç´¢ã™ã‚‹ã“ã¨ã«ãªã‚‹ãŒã€çµæœã«å½±éŸ¿ã¯ãªã„ã€‚
 	if (length % (sizeof(__m256i) / sizeof(int)) != 0)
 	{
-		// ”z—ñ‚Ì––”ö‚©‚ç 8 —v‘f•ªè‘O‚ÌˆÊ’u‚©‚çƒf[ƒ^‚ğ“Ç‚İ‚ŞB
+		// é…åˆ—ã®æœ«å°¾ã‹ã‚‰ 8 è¦ç´ åˆ†æ‰‹å‰ã®ä½ç½®ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã€‚
 		i = length - (sizeof(__m256i) / sizeof(int));
 		__m256i a256 = _mm256_loadu_si256((__m256i*)(&a[i]));
 		__m256i equals256 = _mm256_cmpeq_epi32(a256, key256);
 
-		// 8 ŒÂ‚Ì—v‘f‚Ì’†‚É key ‚Æ“™‚µ‚¢—v‘f‚ª‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’èB
+		// 8 å€‹ã®è¦ç´ ã®ä¸­ã« key ã¨ç­‰ã—ã„è¦ç´ ãŒã‚ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã€‚
 		if (!_mm256_testz_si256(equals256, equals256))
 		{
 			return i + find_first_non_zero_index_epi32(equals256);
