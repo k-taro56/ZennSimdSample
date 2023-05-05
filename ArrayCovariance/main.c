@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <intrin.h>
 
-// 汎用命令を使った、配列 a と b の共分散を計算する関数。
+// 汎用命令を使った、配列 a と b の共分散を求める関数。
 double covariance_general(const int a[], const int b[], int length)
 {
 	int multiply_add = 0;
@@ -27,7 +27,7 @@ double covariance_general(const int a[], const int b[], int length)
 	return average_multiply - (average_a * average_b);
 }
 
-// SIMD 命令を使った、配列 a と b の共分散を計算する関数。
+// SIMD 命令を使った、配列 a と b の共分散を求める関数。
 double covariance(const int a[], const int b[], int length)
 {
 	int i = 0;
